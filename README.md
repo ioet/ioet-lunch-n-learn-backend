@@ -54,6 +54,12 @@ Based on the [IOET Backend Standard](https://www.notion.so/ioet/Backend-Director
 ### **Health Check**
 - **GET** `/v1/health_check` - To ping the API and verify the status.
 
+### **User**
+- **GET** `/v1/user` - To get all users.
+
+### **House**
+- **GET** `/v1/house` - To get all houses.
+
 ## 🛠️ Setup and Installation
 1. **Clone the repository:**
   ```bash 
