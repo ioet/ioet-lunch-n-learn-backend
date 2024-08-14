@@ -11,13 +11,13 @@ func Route(rg *gin.RouterGroup) {
 	rg.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"houses": generateMockHouses(),
-			"count":  10,
+			"count":  5,
 		})
 	})
 }
 
 func generateMockHouses() []house.House {
-	mockHouses := make([]house.House, 10)
+	mockHouses := make([]house.House, 5)
 
 	for i := range mockHouses {
 		mockHouses[i] = house.New("Mocked house "+strconv.Itoa(i), nil)
