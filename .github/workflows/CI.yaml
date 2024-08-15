@@ -46,7 +46,7 @@ jobs:
           GOPATH: ${{ github.workspace }}/go
 
       - name: Lint
-        run: ${GOPATH}/bin/golangci-lint run
+        run: golangci-lint run
         env:
           GOPATH: ${{ github.workspace }}/go
 
