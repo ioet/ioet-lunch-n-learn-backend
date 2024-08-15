@@ -1,4 +1,4 @@
-package lunch_n_learn
+package lunchnlearn
 
 import (
 	"time"
@@ -7,7 +7,7 @@ import (
 )
 
 type LunchNLearn struct {
-	Id               uuid.UUID    `json:"id"`
+	ID               uuid.UUID    `json:"id"`
 	Name             string       `json:"name"`
 	Assistants       *[]uuid.UUID `json:"assistants"`
 	Presenters       []uuid.UUID  `json:"presenters"`
@@ -24,7 +24,7 @@ func New(name string, assistants *[]uuid.UUID, presenters []uuid.UUID, presentat
 	}
 
 	return LunchNLearn{
-		Id:               uuid.New(),
+		ID:               uuid.New(),
 		Name:             name,
 		Assistants:       assistants,
 		Presenters:       presenters,
@@ -34,7 +34,7 @@ func New(name string, assistants *[]uuid.UUID, presenters []uuid.UUID, presentat
 	}
 }
 
-func (lunchNLearn *LunchNLearn) AddAssistant(assistantId uuid.UUID) {
-	*lunchNLearn.Assistants = append(*lunchNLearn.Assistants, assistantId)
+func (lunchNLearn *LunchNLearn) AddAssistant(assistantID uuid.UUID) {
+	*lunchNLearn.Assistants = append(*lunchNLearn.Assistants, assistantID)
 	lunchNLearn.UpdatedAt = time.Now()
 }

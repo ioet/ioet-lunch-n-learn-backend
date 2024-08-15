@@ -1,4 +1,4 @@
-package healthcheck_route
+package healthcheckroute
 
 import (
 	"github.com/gin-gonic/gin"

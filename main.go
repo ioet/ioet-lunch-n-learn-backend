@@ -45,6 +45,9 @@ func main() {
 	}
 
 	events.RegisterRoutes(engine)
+	err := engine.Run("localhost:" + config.AppPort)
 
-	engine.Run("localhost:" + config.APP_PORT)
+	if err != nil {
+		log.Fatal("cannot start server: ", err)
+	}
 }

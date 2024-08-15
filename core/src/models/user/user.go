@@ -7,22 +7,22 @@ import (
 )
 
 type User struct {
-	Id        uuid.UUID  `json:"id"`
+	ID        uuid.UUID  `json:"id"`
 	Name      string     `json:"name"`
 	Email     string     `json:"email"`
-	PhotoUrl  *string    `json:"photoUrl,omitempty"`
-	HouseId   *uuid.UUID `json:"houseId"`
+	PhotoURL  *string    `json:"photoUrl,omitempty"`
+	HouseID   *uuid.UUID `json:"houseId"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
 }
 
-func New(name string, email string, photoUrl *string, houseId *uuid.UUID) User {
+func New(name string, email string, photoURL *string, houseID *uuid.UUID) User {
 	return User{
-		Id:        uuid.New(),
+		ID:        uuid.New(),
 		Name:      name,
 		Email:     email,
-		PhotoUrl:  photoUrl,
-		HouseId:   houseId,
+		PhotoURL:  photoURL,
+		HouseID:   houseID,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}

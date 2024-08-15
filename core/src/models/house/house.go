@@ -7,20 +7,20 @@ import (
 )
 
 type House struct {
-	Id        uuid.UUID  `json:"id"`
+	ID        uuid.UUID  `json:"id"`
 	Name      string     `json:"name"`
 	Points    int        `json:"points"`
-	CaptainId *uuid.UUID `json:"captainId"`
+	CaptainID *uuid.UUID `json:"captainId"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
 }
 
-func New(name string, captainId *uuid.UUID) House {
+func New(name string, captainID *uuid.UUID) House {
 	return House{
-		Id:        uuid.New(),
+		ID:        uuid.New(),
 		Name:      name,
 		Points:    0,
-		CaptainId: captainId,
+		CaptainID: captainID,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
