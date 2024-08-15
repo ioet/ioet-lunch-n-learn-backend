@@ -17,6 +17,9 @@ check-lint:
 lint:
 	$(shell go env GOPATH)/bin/golangci-lint run --fix
 
+test:
+	echo "Not testing yet :("
+
 help:
 	@echo "Available commands:"
 	@echo "  make deps       - Download and install all Go dependencies"
@@ -26,3 +29,4 @@ help:
 	@echo "  make help       - Show this help message"
 	@echo "  make check-lint - Run linter"
 	@echo "  make lint       - Run linter and fix"
+	@echo "  make test       - Run tests"

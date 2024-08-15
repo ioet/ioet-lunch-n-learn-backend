@@ -52,7 +52,7 @@ jobs:
         run: golangci-lint run
 
       - name: Run tests
-        run: echo "Not testing yet :("
+        run: make test
 
       - name: Build
         run: make build
