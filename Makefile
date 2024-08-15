@@ -12,7 +12,7 @@ build:
 	go build -v ./...
 
 check-lint:
-	$(shell go env GOPATH)/bin/golangci-lint run
+	golangci-lint run
 
 lint:
 	$(shell go env GOPATH)/bin/golangci-lint run --fix
