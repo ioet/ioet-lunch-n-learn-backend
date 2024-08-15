@@ -47,8 +47,6 @@ jobs:
 
       - name: Lint
         run: golangci-lint run
-        env:
-          GOPATH: ${{ github.workspace }}/go
 
       - name: Run tests
         run: echo "Not testing yet :("
