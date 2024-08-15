@@ -7,6 +7,13 @@ import (
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
 )
 
+// @Summary Get mocked houses
+// @Description get all houses
+// @ID get-all-houses
+// @Accept  json
+// @Produce  json
+// @Success 200 {string} string  "ok"
+// @Router /house [get]
 func Route(rg *gin.RouterGroup) {
 	rg.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
