@@ -41,7 +41,9 @@ jobs:
         run: make deps
 
       - name: Add Go bin to PATH
-        run: echo "${{ go env GOPATH }}/bin" >> $GITHUB_PATH
+        run: echo "${GOPATH}/bin" >> $GITHUB_PATH
+        env:
+          GOPATH: ${{ github.workspace }}/go
 
       - name: Lint
         run: make check-lint
