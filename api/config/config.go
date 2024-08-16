@@ -5,30 +5,39 @@ import (
 	"github.com/spf13/viper"
 )
 
-func LoadConfig() (Config, error) {
-	var config Config
+func LoadConfig() (*Config, error) {
+	var err error
 
-	viper.AddConfigPath("./")
-	viper.SetConfigFile(".env")
-	err := viper.ReadInConfig()
+	once.Do(func() {
+		var cfg Config
 
-	if err != nil {
-		return config, err
-	}
+		viper.AddConfigPath("./")
+		viper.SetConfigFile(".env")
+		err = viper.ReadInConfig()
 
-	for _, env := range envs {
-		if err := viper.BindEnv(env); err != nil {
-			return config, err
+		if err != nil {
+			return
 		}
-	}
 
-	if err := viper.Unmarshal(&config); err != nil {
-		return config, err
-	}
+		for _, env := range envs {
+			if bindErr := viper.BindEnv(env); bindErr != nil {
+				err = bindErr
+				return
+			}
+		}
 
-	if err := validator.New().Struct(&config); err != nil {
-		return config, err
-	}
+		if unmarshalErr := viper.Unmarshal(&cfg); unmarshalErr != nil {
+			err = unmarshalErr
+			return
+		}
 
-	return config, nil
+		if validateErr := validator.New().Struct(&cfg); validateErr != nil {
+			err = validateErr
+			return
+		}
+
+		config = &cfg
+	})
+
+	return config, err
 }

@@ -3,3 +3,6 @@
 
 # Temporary files
 tmp
+
+# Firebase private key
+serviceAccountKey.json
