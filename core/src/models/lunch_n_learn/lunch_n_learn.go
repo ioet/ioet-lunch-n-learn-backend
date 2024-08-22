@@ -7,16 +7,16 @@ import (
 )
 
 type LunchNLearn struct {
-	ID               uuid.UUID    `json:"id"`
-	Name             string       `json:"name"`
-	Assistants       *[]uuid.UUID `json:"assistants"`
-	Presenters       []uuid.UUID  `json:"presenters"`
-	CreatedAt        time.Time    `json:"createdAt"`
-	UpdatedAt        time.Time    `json:"updatedAt"`
-	PresentationDate time.Time    `json:"presentationDate"`
+	ID               string    `json:"id"`
+	Name             string    `json:"name"`
+	Assistants       []string  `json:"assistants"`
+	Presenters       []string  `json:"presenters"`
+	CreatedAt        time.Time `json:"createdAt"`
+	UpdatedAt        time.Time `json:"updatedAt"`
+	PresentationDate time.Time `json:"presentationDate"`
 }
 
-func New(name string, assistants *[]uuid.UUID, presenters []uuid.UUID, presentationDate string) LunchNLearn {
+func New(name string, presentationDate string) LunchNLearn {
 	parsedTime, err := time.Parse("2006-01-02 15:04:05", presentationDate)
 
 	if err != nil {
@@ -24,17 +24,22 @@ func New(name string, assistants *[]uuid.UUID, presenters []uuid.UUID, presentat
 	}
 
 	return LunchNLearn{
-		ID:               uuid.New(),
+		ID:               uuid.New().String(),
 		Name:             name,
-		Assistants:       assistants,
-		Presenters:       presenters,
+		Assistants:       []string{},
+		Presenters:       []string{},
 		CreatedAt:        time.Now(),
 		UpdatedAt:        time.Now(),
 		PresentationDate: parsedTime,
 	}
 }
 
-func (lunchNLearn *LunchNLearn) AddAssistant(assistantID uuid.UUID) {
-	*lunchNLearn.Assistants = append(*lunchNLearn.Assistants, assistantID)
+func (lunchNLearn *LunchNLearn) AddAssistant(assistantID string) {
+	lunchNLearn.Assistants = append(lunchNLearn.Assistants, assistantID)
+	lunchNLearn.UpdatedAt = time.Now()
+}
+
+func (lunchNLearn *LunchNLearn) AddPresenter(presenterID string) {
+	lunchNLearn.Presenters = append(lunchNLearn.Presenters, presenterID)
 	lunchNLearn.UpdatedAt = time.Now()
 }

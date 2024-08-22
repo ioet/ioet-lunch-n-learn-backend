@@ -1,34 +1,84 @@
 package houseroute
 
 import (
-	"strconv"
+	"context"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
+	"github.com/google/uuid"
+	housefirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/house"
+	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
+	house "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
+	housecreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/create"
+	houselistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/list/all"
+	houselistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/list/id"
 )
 
-// @Summary Get mocked houses
-// @Description get all houses
-// @ID get-all-houses
-// @Accept  json
-// @Produce  json
-// @Success 200 {string} string  "ok"
-// @Router /house [get]
 func Route(rg *gin.RouterGroup) {
-	rg.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"houses": generateMockHouses(),
-			"count":  5,
-		})
-	})
-}
-
-func generateMockHouses() []house.House {
-	mockHouses := make([]house.House, 5)
-
-	for i := range mockHouses {
-		mockHouses[i] = house.New("Mocked house "+strconv.Itoa(i), nil)
+	repository, err := housefirebaserepository.NewHouseRepository(context.Background())
+	if err != nil {
+		panic("Error initializing the House repository: " + err.Error())
 	}
 
-	return mockHouses
+	rg.GET("/", func(c *gin.Context) {
+		useCase := houselistingusecase.NewHouseListingUseCase(*repository)
+		houses, err := useCase.Execute()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the Houses": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"houses":  houses,
+			"count":   len(houses),
+			"message": "Houses retrieved successfully",
+		})
+	})
+
+	rg.GET("/:id", func(c *gin.Context) {
+		id, err := uuid.Parse(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Invalid id format": err.Error()})
+			return
+		}
+
+		useCase := houselistingbyidusecase.NewHouseListingByIdUseCase(*repository)
+		house, err := useCase.Execute(id.String())
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the House": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"house":   house,
+			"message": "House retrieved successfully",
+		})
+	})
+
+	rg.POST("/", func(c *gin.Context) {
+		var newHouse dtos.HouseCreateIn
+		if err := c.ShouldBindJSON(&newHouse); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error reading House from request params": err.Error()})
+			return
+		}
+
+		captainID, err := uuid.Parse(newHouse.CaptainID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Invalid captainId format": err.Error()})
+			return
+		}
+
+		useCase := housecreationusecase.NewHouseCreationUseCase(*repository)
+		_newhouse := house.New(newHouse.Name, captainID.String())
+		createdHouse, err := useCase.Execute(_newhouse)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error creating the House": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{
+			"message": "House created successfully",
+			"house":   createdHouse,
+		})
+	})
 }

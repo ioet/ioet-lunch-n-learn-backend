@@ -6,9 +6,8 @@ The **Lunch & Learn App** is designed to facilitate informal learning sessions w
 ## 🛠️ Backend Tech Stack
 - **Languaje:** Go
 - **Framework:** Gin
-- **Database:** -
+- **Database:** Firebase Firestore
 - **API:** RESTful services using Gin
-- **Authentication:** IOET internal auth service
 - **Version Control:** Git
 
 ## 📂 Project Structure
@@ -52,13 +51,27 @@ Based on the [IOET Backend Standard](https://www.notion.so/ioet/Backend-Director
 
 ## 🚀 Endpoints
 ### **Health Check**
-- **GET** `/v1/health_check` - To ping the API and verify the status.
+- **GET** `/v1/health_check/` - To ping the API and verify the status.
 
 ### **User**
-- **GET** `/v1/user` - To get all users.
+- **GET** `/v1/user/` - To get all users.
+- **GET** `/v1/user/:id ` - To get a user by id.
+- **POST** `/v1/user/ ` - To create a user.
+- **PUT** `/v1/user/house  ` - To modify the user's house.
 
 ### **House**
-- **GET** `/v1/house` - To get all houses.
+- **GET** `/v1/house/` - To get all houses.
+- **GET** `/v1/house/:id` - To get a house by id.
+- **POST** `/v1/house/` - To create a house.
+
+### **Lunch n Learn**
+- **GET** `/v1/lunch_n_learn/` - To get all lunch n learns.
+- **GET** `/v1/lunch_n_learn/:id` - To get a lunch n learn by id.
+- **POST** `/v1/lunch_n_learn/` - To create a lunch n learn.
+- **PUT** `/v1/lunch_n_learn/` - To update a lunch n learn info.
+- **PUT** `/v1/lunch_n_learn/assistant` - To add an assistant to a lunch n learn.
+- **PUT** `/v1/lunch_n_learn/presenter` - To add an presenter to a lunch n learn.
+
 
 ## 🛠️ Setup and Installation
 1. **Clone the repository:**

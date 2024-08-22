@@ -7,18 +7,18 @@ import (
 )
 
 type User struct {
-	ID        uuid.UUID  `json:"id"`
-	Name      string     `json:"name"`
-	Email     string     `json:"email"`
-	PhotoURL  *string    `json:"photoUrl,omitempty"`
-	HouseID   *uuid.UUID `json:"houseId"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	PhotoURL  string    `json:"photoUrl"`
+	HouseID   string    `json:"houseId"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func New(name string, email string, photoURL *string, houseID *uuid.UUID) User {
+func New(name string, email string, photoURL string, houseID string) User {
 	return User{
-		ID:        uuid.New(),
+		ID:        uuid.New().String(),
 		Name:      name,
 		Email:     email,
 		PhotoURL:  photoURL,
@@ -26,4 +26,9 @@ func New(name string, email string, photoURL *string, houseID *uuid.UUID) User {
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
+}
+
+func (user *User) ChangeHouse(newHouseID string) {
+	user.HouseID = newHouseID
+	user.UpdatedAt = time.Now()
 }

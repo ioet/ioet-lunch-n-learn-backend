@@ -1,34 +1,99 @@
 package userroute
 
 import (
-	"strconv"
+	"context"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	userfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/user"
+	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/user"
+	usercreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/create"
+	userlistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/list/all"
+	userlistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/list/id"
+	usermodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/update"
 )
 
-// @Summary Get mocked users
-// @Description get all users
-// @ID get-all-users
-// @Accept  json
-// @Produce  json
-// @Success 200 {string} string  "ok"
-// @Router /user [get]
 func Route(rg *gin.RouterGroup) {
-	rg.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"users": generateMockUsers(),
-			"count": 10,
-		})
-	})
-}
-
-func generateMockUsers() []user.User {
-	mockUsers := make([]user.User, 10)
-
-	for i := range mockUsers {
-		mockUsers[i] = user.New("Mocked user "+strconv.Itoa(i), "Mocked email", nil, nil)
+	repository, err := userfirebaserepository.NewUserRepository(context.Background())
+	if err != nil {
+		panic("Error initializing the House repository: " + err.Error())
 	}
 
-	return mockUsers
+	rg.GET("/", func(c *gin.Context) {
+		useCase := userlistingusecase.NewUserListingUseCase(*repository)
+		users, err := useCase.Execute()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the Users": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"users":   users,
+			"count":   len(users),
+			"message": "Users retrieved successfully",
+		})
+	})
+
+	rg.GET("/:id", func(c *gin.Context) {
+		id, err := uuid.Parse(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Invalid id format": err.Error()})
+			return
+		}
+
+		useCase := userlistingbyidusecase.NewUserListingByIdUseCase(*repository)
+		user, err := useCase.Execute(id.String())
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the User": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"user":    user,
+			"message": "User retrieved successfully",
+		})
+	})
+
+	rg.POST("/", func(c *gin.Context) {
+		var newUser dtos.UserCreateIn
+		if err := c.ShouldBindJSON(&newUser); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error reading User from request params": err.Error()})
+			return
+		}
+
+		useCase := usercreationusecase.NewUserCreationUseCase(*repository)
+		_newuser := user.New(newUser.Name, newUser.Email, newUser.PhotoURL, newUser.HouseID)
+		createdUser, err := useCase.Execute(_newuser)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error creating the User": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{
+			"message": "House created successfully",
+			"house":   createdUser,
+		})
+	})
+
+	rg.PUT("/house", func(c *gin.Context) {
+		var newUser dtos.UserChangeHouseIn
+		if err := c.ShouldBindJSON(&newUser); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error reading User from request params": err.Error()})
+			return
+		}
+
+		useCase := usermodificationusecase.NewUserHouseChangeUseCase(*repository)
+		updatedUser, err := useCase.Execute(newUser)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error updating the User": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{
+			"message": "House updated successfully",
+			"house":   updatedUser,
+		})
+	})
 }
