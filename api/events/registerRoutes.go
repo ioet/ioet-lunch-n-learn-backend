@@ -2,9 +2,9 @@ package events
 
 import (
 	"github.com/gin-gonic/gin"
-	healthcheckroute "github.com/ioet/ioet-lunch-n-learn-backend/api/routers/v1/health_check"
+	healthcheckroute "github.com/ioet/ioet-lunch-n-learn-backend/api/routers/v1/healthCheck"
 	houseroute "github.com/ioet/ioet-lunch-n-learn-backend/api/routers/v1/house"
-	lunchnlearnroute "github.com/ioet/ioet-lunch-n-learn-backend/api/routers/v1/lunch_n_learn"
+	lunchnlearnroute "github.com/ioet/ioet-lunch-n-learn-backend/api/routers/v1/lunchNLearn"
 	userroute "github.com/ioet/ioet-lunch-n-learn-backend/api/routers/v1/user"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

@@ -3,7 +3,7 @@ package repositoryfactories
 import (
 	"context"
 
-	lnlfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/lunch-n-learn"
+	lnlfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/lunchNLearn"
 )
 
 func LnLFirebaseRepository() *lnlfirebaserepository.LnLRepository {

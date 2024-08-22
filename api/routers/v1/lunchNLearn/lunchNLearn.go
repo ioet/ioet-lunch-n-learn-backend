@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
-	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunch_n_learn"
-	lnlcreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/create"
-	lnllistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/list/all"
-	lnllistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/list/id"
-	lnlmodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/update"
+	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunchNLearn"
+	lnlcreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/create"
+	lnllistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/list/all"
+	lnllistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/list/id"
+	lnlmodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/update"
 	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 

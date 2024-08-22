@@ -7,7 +7,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/ioet/ioet-lunch-n-learn-backend/api/config"
-	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunch_n_learn"
+	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunchNLearn"
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/repositories"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"

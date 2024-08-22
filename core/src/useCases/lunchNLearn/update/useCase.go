@@ -3,9 +3,9 @@ package lnlmodificationusecase
 import (
 	"time"
 
-	lnlfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/lunch-n-learn"
+	lnlfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/lunchNLearn"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
-	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunch_n_learn"
+	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunchNLearn"
 )
 
 type LnLModificationUseCase struct {

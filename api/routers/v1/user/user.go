@@ -7,10 +7,10 @@ import (
 	"github.com/google/uuid"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/user"
-	usercreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/create"
-	userlistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/list/all"
-	userlistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/list/id"
-	usermodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/update"
+	usercreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/user/create"
+	userlistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/user/list/all"
+	userlistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/user/list/id"
+	usermodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/user/update"
 	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 

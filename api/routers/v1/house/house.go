@@ -7,9 +7,9 @@ import (
 	"github.com/google/uuid"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	house "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
-	housecreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/create"
-	houselistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/list/all"
-	houselistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/list/id"
+	housecreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/house/create"
+	houselistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/house/list/all"
+	houselistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/house/list/id"
 	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
