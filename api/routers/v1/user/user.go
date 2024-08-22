@@ -1,25 +1,21 @@
 package userroute
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	userfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/user"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/user"
 	usercreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/create"
 	userlistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/list/all"
 	userlistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/list/id"
 	usermodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/user/update"
+	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
 func Route(rg *gin.RouterGroup) {
-	repository, err := userfirebaserepository.NewUserRepository(context.Background())
-	if err != nil {
-		panic("Error initializing the House repository: " + err.Error())
-	}
+	repository := repositoryfactories.UserFirebaseRepository()
 
 	rg.GET("/", func(c *gin.Context) {
 		useCase := userlistingusecase.NewUserListingUseCase(*repository)

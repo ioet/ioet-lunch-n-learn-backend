@@ -1,24 +1,20 @@
 package houseroute
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	housefirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/house"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	house "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
 	housecreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/create"
 	houselistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/list/all"
 	houselistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/house/list/id"
+	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
 func Route(rg *gin.RouterGroup) {
-	repository, err := housefirebaserepository.NewHouseRepository(context.Background())
-	if err != nil {
-		panic("Error initializing the House repository: " + err.Error())
-	}
+	repository := repositoryfactories.HouseFirebaseRepository()
 
 	rg.GET("/", func(c *gin.Context) {
 		useCase := houselistingusecase.NewHouseListingUseCase(*repository)

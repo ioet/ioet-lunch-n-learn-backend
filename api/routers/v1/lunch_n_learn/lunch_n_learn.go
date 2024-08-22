@@ -1,25 +1,21 @@
 package lunchnlearnroute
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	lnlfirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/lunch-n-learn"
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunch_n_learn"
 	lnlcreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/create"
 	lnllistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/list/all"
 	lnllistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/list/id"
 	lnlmodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/use_cases/lunch_n_learn/update"
+	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
 func Route(rg *gin.RouterGroup) {
-	repository, err := lnlfirebaserepository.NewLnLRepository(context.Background())
-	if err != nil {
-		panic("Error initializing the Lunch-n-learn repository: " + err.Error())
-	}
+	repository := repositoryfactories.LnLFirebaseRepository()
 
 	rg.GET("/", func(c *gin.Context) {
 		useCase := lnllistingusecase.NewLnLListingUseCase(*repository)
