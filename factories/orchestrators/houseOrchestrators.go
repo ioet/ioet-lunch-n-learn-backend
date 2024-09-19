@@ -1,7 +1,7 @@
 package orchestratorfactories
 
 import (
-	houseorchestrator "github.com/ioet/ioet-lunch-n-learn-backend/core/src/orchestrators/House"
+	houseorchestrator "github.com/ioet/ioet-lunch-n-learn-backend/core/src/orchestrators/house"
 	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
