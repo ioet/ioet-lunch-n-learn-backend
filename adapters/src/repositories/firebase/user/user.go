@@ -58,7 +58,11 @@ func (u *UserRepository) GetAll() ([]user.User, error) {
 		}
 
 		var h user.User
-		doc.DataTo(&h)
+		docErr := doc.DataTo(&h)
+
+		if docErr != nil {
+			return []user.User{}, fmt.Errorf("error getting house data: %v", docErr)
+		}
 		users = append(users, h)
 	}
 
@@ -75,7 +79,12 @@ func (u *UserRepository) GetByID(id string) (user.User, error) {
 		return user.User{}, fmt.Errorf("error getting user: %v", err)
 	}
 
-	doc.DataTo(&us)
+	docErr := doc.DataTo(&us)
+
+	if docErr != nil {
+		return user.User{}, fmt.Errorf("error getting user data: %v", docErr)
+	}
+
 	return us, nil
 }
 
@@ -110,7 +119,7 @@ func (u *UserRepository) Update(ID string, data user.User) (user.User, error) {
 
 // TODO: To implement if needed
 
-func (u *UserRepository) Delete(ID string) error {
+func (u *UserRepository) Delete(_ string) error {
 	return fmt.Errorf("not implemented")
 }
 
@@ -130,7 +139,12 @@ func (u *UserRepository) GetAllByHouseID(houseID string) ([]user.User, error) {
 		}
 
 		var h user.User
-		doc.DataTo(&h)
+		docErr := doc.DataTo(&h)
+
+		if docErr != nil {
+			return []user.User{}, fmt.Errorf("error getting house data: %v", docErr)
+		}
+
 		users = append(users, h)
 	}
 

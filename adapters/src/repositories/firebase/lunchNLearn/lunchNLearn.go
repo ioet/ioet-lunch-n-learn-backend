@@ -58,7 +58,12 @@ func (u *LnLRepository) GetAll() ([]lunchnlearn.LunchNLearn, error) {
 		}
 
 		var h lunchnlearn.LunchNLearn
-		doc.DataTo(&h)
+		docErr := doc.DataTo(&h)
+
+		if docErr != nil {
+			return []lunchnlearn.LunchNLearn{}, fmt.Errorf("error getting lunch-n-learn: %v", docErr)
+		}
+
 		lunchnlearns = append(lunchnlearns, h)
 	}
 
@@ -75,7 +80,12 @@ func (u *LnLRepository) GetByID(id string) (lunchnlearn.LunchNLearn, error) {
 		return lunchnlearn.LunchNLearn{}, fmt.Errorf("error getting house: %v", err)
 	}
 
-	doc.DataTo(&lnl)
+	docErr := doc.DataTo(&lnl)
+
+	if docErr != nil {
+		return lunchnlearn.LunchNLearn{}, fmt.Errorf("error getting house data: %v", docErr)
+	}
+
 	return lnl, nil
 }
 
@@ -110,6 +120,6 @@ func (u *LnLRepository) Update(ID string, data lunchnlearn.LunchNLearn) (lunchnl
 
 // TODO: To implement if needed
 
-func (u *LnLRepository) Delete(ID string) error {
+func (u *LnLRepository) Delete(_ string) error {
 	return fmt.Errorf("not implemented")
 }

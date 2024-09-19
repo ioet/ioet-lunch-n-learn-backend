@@ -39,7 +39,7 @@ func Route(rg *gin.RouterGroup) {
 			return
 		}
 
-		useCase := lnllistingbyidusecase.NewLnLListingByIdUseCase(*repository)
+		useCase := lnllistingbyidusecase.NewLnLListingByIDUseCase(*repository)
 		lnl, err := useCase.Execute(id.String())
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the Lunch-n-learn": err.Error()})

@@ -5,15 +5,15 @@ import (
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/user"
 )
 
-type UserListingByIdUseCase struct {
+type UserListingByIDUseCase struct {
 	Repository userfirebaserepository.UserRepository
 }
 
-func NewUserListingByIdUseCase(repository userfirebaserepository.UserRepository) *UserListingByIdUseCase {
-	return &UserListingByIdUseCase{Repository: repository}
+func NewUserListingByIDUseCase(repository userfirebaserepository.UserRepository) *UserListingByIDUseCase {
+	return &UserListingByIDUseCase{Repository: repository}
 }
 
-func (u *UserListingByIdUseCase) Execute(id string) (user.User, error) {
+func (u *UserListingByIDUseCase) Execute(id string) (user.User, error) {
 	user, err := u.Repository.GetByID(id)
 
 	if err != nil {

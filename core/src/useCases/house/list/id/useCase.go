@@ -5,15 +5,15 @@ import (
 	houseorchestrator "github.com/ioet/ioet-lunch-n-learn-backend/core/src/orchestrators/house"
 )
 
-type HouseListingByIdUseCase struct {
+type HouseListingByIDUseCase struct {
 	Orchestrator houseorchestrator.HouseOrquestrator
 }
 
-func NewHouseListingByIdUseCase(orchestrator houseorchestrator.HouseOrquestrator) *HouseListingByIdUseCase {
-	return &HouseListingByIdUseCase{Orchestrator: orchestrator}
+func NewHouseListingByIDUseCase(orchestrator houseorchestrator.HouseOrquestrator) *HouseListingByIDUseCase {
+	return &HouseListingByIDUseCase{Orchestrator: orchestrator}
 }
 
-func (u *HouseListingByIdUseCase) Execute(id string) (house.House, error) {
+func (u *HouseListingByIDUseCase) Execute(id string) (house.House, error) {
 	house, err := u.Orchestrator.GetHouseByID(id)
 
 	if err != nil {

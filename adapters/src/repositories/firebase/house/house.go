@@ -58,7 +58,12 @@ func (u *HouseRepository) GetAll() ([]house.House, error) {
 		}
 
 		var h house.House
-		doc.DataTo(&h)
+		docErr := doc.DataTo(&h)
+
+		if docErr != nil {
+			return []house.House{}, fmt.Errorf("error getting house data: %v", docErr)
+		}
+
 		houses = append(houses, h)
 	}
 
@@ -75,7 +80,11 @@ func (u *HouseRepository) GetByID(id string) (house.House, error) {
 		return house.House{}, fmt.Errorf("error getting house: %v", err)
 	}
 
-	doc.DataTo(&h)
+	docErr := doc.DataTo(&h)
+
+	if docErr != nil {
+		return house.House{}, fmt.Errorf("error getting house data: %v", docErr)
+	}
 	return h, nil
 }
 
@@ -91,10 +100,10 @@ func (u *HouseRepository) Create(data house.House) (house.House, error) {
 
 // TODO: To implement if needed
 
-func (u *HouseRepository) Update(ID string, data house.House) (house.House, error) {
+func (u *HouseRepository) Update(_ string, _ house.House) (house.House, error) {
 	return house.House{}, fmt.Errorf("not implemented")
 }
 
-func (u *HouseRepository) Delete(ID string) error {
+func (u *HouseRepository) Delete(_ string) error {
 	return fmt.Errorf("not implemented")
 }

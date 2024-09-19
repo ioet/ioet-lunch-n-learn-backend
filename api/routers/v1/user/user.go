@@ -39,7 +39,7 @@ func Route(rg *gin.RouterGroup) {
 			return
 		}
 
-		useCase := userlistingbyidusecase.NewUserListingByIdUseCase(*repository)
+		useCase := userlistingbyidusecase.NewUserListingByIDUseCase(*repository)
 		user, err := useCase.Execute(id.String())
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the User": err.Error()})

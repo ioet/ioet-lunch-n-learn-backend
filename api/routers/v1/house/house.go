@@ -40,7 +40,7 @@ func Route(rg *gin.RouterGroup) {
 			return
 		}
 
-		useCase := houselistingbyidusecase.NewHouseListingByIdUseCase(*orchestrator)
+		useCase := houselistingbyidusecase.NewHouseListingByIDUseCase(*orchestrator)
 		house, err := useCase.Execute(id.String())
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the House": err.Error()})
