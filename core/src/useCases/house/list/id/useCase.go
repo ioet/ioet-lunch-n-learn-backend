@@ -2,7 +2,7 @@ package houselistingbyidusecase
 
 import (
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
-	houseorchestrator "github.com/ioet/ioet-lunch-n-learn-backend/core/src/orchestrators/House"
+	houseorchestrator "github.com/ioet/ioet-lunch-n-learn-backend/core/src/orchestrators/house"
 )
 
 type HouseListingByIdUseCase struct {
