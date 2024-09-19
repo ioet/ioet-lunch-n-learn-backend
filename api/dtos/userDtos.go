@@ -11,3 +11,8 @@ type UserChangeHouseIn struct {
 	ID      string `json:"id"`
 	HouseID string `json:"houseId"`
 }
+
+type UserAddPointsIn struct {
+	ID        string `json:"id"`
+	NewPoints int    `json:"newPoints"`
+}

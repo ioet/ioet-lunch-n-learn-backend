@@ -58,6 +58,7 @@ Based on the [IOET Backend Standard](https://www.notion.so/ioet/Backend-Director
 - **GET** `/v1/user/:id ` - To get a user by id.
 - **POST** `/v1/user/ ` - To create a user.
 - **PUT** `/v1/user/house  ` - To modify the user's house.
+- **PUT** `/v1/user/points  ` - To modify the user's points.
 
 ### **House**
 - **GET** `/v1/house/` - To get all houses.

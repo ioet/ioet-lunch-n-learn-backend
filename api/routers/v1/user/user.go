@@ -69,7 +69,7 @@ func Route(rg *gin.RouterGroup) {
 
 		c.JSON(http.StatusCreated, gin.H{
 			"message": "House created successfully",
-			"house":   createdUser,
+			"user":    createdUser,
 		})
 	})
 
@@ -89,7 +89,27 @@ func Route(rg *gin.RouterGroup) {
 
 		c.JSON(http.StatusCreated, gin.H{
 			"message": "House updated successfully",
-			"house":   updatedUser,
+			"user":    updatedUser,
+		})
+	})
+
+	rg.PUT("/points", func(c *gin.Context) {
+		var newUser dtos.UserAddPointsIn
+		if err := c.ShouldBindJSON(&newUser); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error reading User from request params": err.Error()})
+			return
+		}
+
+		useCase := usermodificationusecase.NewUserAddPointsUseCase(*repository)
+		updatedUser, err := useCase.Execute(newUser)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error updating the User": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{
+			"message": "Points updated successfully",
+			"user":    updatedUser,
 		})
 	})
 }
