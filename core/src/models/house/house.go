@@ -26,7 +26,7 @@ func New(name string, captainID string) House {
 	}
 }
 
-func (house *House) AddPoints(points int) {
-	house.Points += points
+func (house *House) ChangePoints(points int) {
+	house.Points = points
 	house.UpdatedAt = time.Now()
 }

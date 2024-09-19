@@ -18,7 +18,7 @@ type UserRepository struct {
 	collection string
 }
 
-var _ repositories.Base[user.User] = (*UserRepository)(nil)
+var _ repositories.BaseUserRepository = (*UserRepository)(nil)
 
 func NewUserRepository(ctx context.Context) (*UserRepository, error) {
 	cfg, err := config.LoadConfig()
@@ -112,4 +112,27 @@ func (u *UserRepository) Update(ID string, data user.User) (user.User, error) {
 
 func (u *UserRepository) Delete(ID string) error {
 	return fmt.Errorf("not implemented")
+}
+
+func (u *UserRepository) GetAllByHouseID(houseID string) ([]user.User, error) {
+	iter := u.client.Collection(u.collection).Where("HouseID", "==", houseID).Documents(context.Background())
+
+	var users []user.User
+
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+
+		if err != nil {
+			return []user.User{}, fmt.Errorf("error getting users: %v", err)
+		}
+
+		var h user.User
+		doc.DataTo(&h)
+		users = append(users, h)
+	}
+
+	return users, nil
 }

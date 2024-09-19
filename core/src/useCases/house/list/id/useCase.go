@@ -1,20 +1,20 @@
 package houselistingbyidusecase
 
 import (
-	housefirebaserepository "github.com/ioet/ioet-lunch-n-learn-backend/adapters/src/repositories/firebase/house"
 	"github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/house"
+	houseorchestrator "github.com/ioet/ioet-lunch-n-learn-backend/core/src/orchestrators/House"
 )
 
 type HouseListingByIdUseCase struct {
-	Repository housefirebaserepository.HouseRepository
+	Orchestrator houseorchestrator.HouseOrquestrator
 }
 
-func NewHouseListingByIdUseCase(repository housefirebaserepository.HouseRepository) *HouseListingByIdUseCase {
-	return &HouseListingByIdUseCase{Repository: repository}
+func NewHouseListingByIdUseCase(orchestrator houseorchestrator.HouseOrquestrator) *HouseListingByIdUseCase {
+	return &HouseListingByIdUseCase{Orchestrator: orchestrator}
 }
 
 func (u *HouseListingByIdUseCase) Execute(id string) (house.House, error) {
-	house, err := u.Repository.GetByID(id)
+	house, err := u.Orchestrator.GetHouseByID(id)
 
 	if err != nil {
 		return house, err
