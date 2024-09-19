@@ -47,13 +47,13 @@ func (u *HouseOrquestrator) GetHouseByID(id string) (house.House, error) {
 	_house, err := u.houseRepository.GetByID(id)
 
 	if err != nil {
-		return house
+		return house.House{}, err
 	}
 
 	houseUsers, err := u.userRepository.GetAllByHouseID(_house.ID)
 
 	if err != nil {
-		return house
+		return house.House{}, err
 	}
 
 	pointsCounter := 0

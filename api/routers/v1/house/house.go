@@ -10,14 +10,16 @@ import (
 	housecreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/house/create"
 	houselistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/house/list/all"
 	houselistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/house/list/id"
+	orchestratorfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/orchestrators"
 	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
 func Route(rg *gin.RouterGroup) {
 	repository := repositoryfactories.HouseFirebaseRepository()
+	orchestrator := orchestratorfactories.HouseFirebaseOrchestrator()
 
 	rg.GET("/", func(c *gin.Context) {
-		useCase := houselistingusecase.NewHouseListingUseCase(*repository)
+		useCase := houselistingusecase.NewHouseListingUseCase(*orchestrator)
 		houses, err := useCase.Execute()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the Houses": err.Error()})
@@ -38,7 +40,7 @@ func Route(rg *gin.RouterGroup) {
 			return
 		}
 
-		useCase := houselistingbyidusecase.NewHouseListingByIdUseCase(*repository)
+		useCase := houselistingbyidusecase.NewHouseListingByIdUseCase(*orchestrator)
 		house, err := useCase.Execute(id.String())
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error getting the House": err.Error()})
