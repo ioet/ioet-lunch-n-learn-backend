@@ -132,4 +132,10 @@ func Route(rg *gin.RouterGroup) {
 			"lnl":     updatedLnL,
 		})
 	})
+
+	rg.POST("/quizzes", func(c *gin.Context) {
+		useCaseQuiz := lnlgeneratequiznusecase.NewGenerateQuizUseCase()
+		
+		c.JSON(http.StatusNotImplemented, gin.H{"message": "Not implemented yet"})
+	})
 }

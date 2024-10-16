@@ -14,6 +14,7 @@ type LunchNLearn struct {
 	CreatedAt        time.Time `json:"createdAt"`
 	UpdatedAt        time.Time `json:"updatedAt"`
 	PresentationDate time.Time `json:"presentationDate"`
+	Quiz             []string  `json:"quiz"`
 }
 
 func New(name string, presentationDate string) LunchNLearn {
@@ -31,6 +32,7 @@ func New(name string, presentationDate string) LunchNLearn {
 		CreatedAt:        time.Now(),
 		UpdatedAt:        time.Now(),
 		PresentationDate: parsedTime,
+		Quiz:             []string{},
 	}
 }
 

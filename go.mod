@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.17.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-playground/validator/v10 v10.22.1
+	github.com/google/generative-ai-go v0.18.0
 	github.com/spf13/viper v1.19.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
@@ -15,6 +16,7 @@ require (
 
 require (
 	cloud.google.com/go v0.115.1 // indirect
+	cloud.google.com/go/ai v0.8.0 // indirect
 	cloud.google.com/go/auth v0.9.4 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.4 // indirect
 	cloud.google.com/go/compute/metadata v0.5.1 // indirect
