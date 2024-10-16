@@ -132,4 +132,24 @@ func Route(rg *gin.RouterGroup) {
 			"lnl":     updatedLnL,
 		})
 	})
+
+	rg.POST("/generate_quiz", func(c *gin.Context) {
+		var requestLnL dtos.LnLGenerateQuizIn
+		if err := c.ShouldBindJSON(&requestLnL); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error reading Lunch-n-learn from request params": err.Error()})
+			return
+		}
+
+		useCase := lnlmodificationusecase.NewLnLAddPresenterUseCase(*repository)
+		updatedLnL, err := useCase.Execute(requestLnL)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error updating the Lunch-n-learn": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Lunch-n-learn updated successfully",
+			"lnl":     updatedLnL,
+		})
+	})
 }

@@ -20,3 +20,9 @@ type LnLAddPresenterIn struct {
 	ID          string `json:"id"`
 	PresenterID string `json:"presenterID"`
 }
+
+type LnLGenerateQuizIn struct {
+	ID string `json:"id"`
+	PDF string `json:"application/pdf"`
+	LunchNLearnName string `json:"lunchNLearnName"`
+}

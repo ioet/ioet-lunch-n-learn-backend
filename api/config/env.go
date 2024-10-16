@@ -16,6 +16,7 @@ type Config struct {
 	FirebaseAuthProviderX509CertURL string `mapstructure:"FIREBASE_AUTH_PROVIDER_X509_CERT_URL"`
 	FirebaseClientX509CertURL       string `mapstructure:"FIREBASE_CLIENT_X509_CERT_URL"`
 	FirebaseUniverseDomain          string `mapstructure:"FIREBASE_UNIVERSE_DOMAIN"`
+	GeminiAPIKey                    string `mapstructure:"GEMINI_API_KEY"`
 }
 
 var (
@@ -35,5 +36,6 @@ var (
 		"FIREBASE_AUTH_PROVIDER_X509_CERT_URL",
 		"FIREBASE_CLIENT_X509_CERT_URL",
 		"FIREBASE_UNIVERSE_DOMAIN",
+		"GEMINI_API_KEY",
 	}
 )
