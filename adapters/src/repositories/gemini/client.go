@@ -1,22 +1,3 @@
-package GeminiClient
-
-import "net/http"
-
-type GeminiAPIClient struct {
-	url string
-	apiKey string
-}
-
-func NewPeopleAPIClient(httpClient *http.Client) *GeminiAPIClient {
-	return &GeminiAPIClient{
-		host:       envvar.PeopleAPIUrl(),
-		httpClient: httpClient,
-		roles:      []string{envvar.PeopleAPIRoleName()},
-	}
-}
-
-
-
 package main
 
 import (
@@ -29,6 +10,7 @@ import (
   "google.golang.org/api/option"
 )
 
+// uploadToGemini uploads a file to Gemini and returns the URI of the uploaded file.
 func uploadToGemini(ctx context.Context, client *genai.Client, path, mimeType string) string {
   file, err := os.Open(path)
   if err != nil {
@@ -56,31 +38,34 @@ func main() {
   if !ok {
     log.Fatalln("Environment variable GEMINI_API_KEY not set")
   }
-
+// Create a new client with the API key
   client, err := genai.NewClient(ctx, option.WithAPIKey(apiKey))
   if err != nil {
     log.Fatalf("Error creating client: %v", err)
   }
   defer client.Close()
+// Create a new generative model
+// the model is Gemini 1.5 Flash
+//  this model is used to generate questions for a quiz based on a PDF file
+// there are a limit number of tokens  free, please be aware of that. 
+// maybe is a good idea use a different api key for tests
 
   model := client.GenerativeModel("gemini-1.5-flash")
 
   model.SetTemperature(1)
-  model.SetTopK(64)
+  model.SetTopK(40)
   model.SetTopP(0.95)
   model.SetMaxOutputTokens(8192)
   model.ResponseMIMEType = "application/json"
   model.SystemInstructions = &genai.Content{
-    Parts: []genai.Part{genai.Text("You are a fun question generator. Your goal is to generate 5 multiple choice questions with the text that the user provides you.\nin JSON format using this example\n\n[\n{question,\noption_1, option_2,option_3,option_4, correct:option1\n}\n]")}
+    // The system instructions are the same as the prompt
+    Parts: []genai.Part{genai.Text("You are an expert creating quizzes to evaluate knowledge. Your task is to generate 5 questions following this JSON format:\n\n[\n  {\n    \"question\": \"\",\n    \"option1\": \"\",\n    \"option2\": \"\",\n    \"option3\": \"\",\n    \"option4\": \"\",\n    \"correctOption\": \"\"\n  }\n]\n\n# Rules\n\n- The correct option must always be in a random position.\n- No sentence should exceed 50 characters.\n\n# Output Format\n\n- Produce the questions in the specified JSON format without any additional text.\n\n# Notes\n\n- Ensure each question and answer fits within the character limit.\n- Use diverse questions to test broad knowledge on a subject.")}
   }
-
-  // model.SafetySettings = Adjust safety settings
-  // See https://ai.google.dev/gemini-api/docs/safety-settings
 
   // TODO Make these files available on the local file system
   // You may need to update the file paths
   fileURIs := []string{
-    uploadToGemini(ctx, client, "image_food4.jpeg", "image/jpeg"),
+    uploadToGemini(ctx, client, "FilePath Here.pdf", "application/pdf"),
   }
 
   session := model.StartChat()
@@ -89,18 +74,16 @@ func main() {
       Role: "user",
       Parts: []genai.Part{
         genai.FileData{URI: fileURIs[0]},
-        genai.Text("Given this image detail the recipe to bake this item in JSON format. Include item names and quantities for the recipe."),
+       
       },
-    },
-    {
-      Role: "model",
-      Parts: []genai.Part{
-        genai.Text("```json\n{\"recipe\": {\"name\": \"Sweet Potato Fries\", \"ingredients\": [{\"name\": \"sweet potatoes\", \"quantity\": \"1\", \"unit\": \"medium\"}, {\"name\": \"olive oil\", \"quantity\": \"2\", \"unit\": \"tablespoons\"}, {\"name\": \"salt\", \"quantity\": \"1/2\", \"unit\": \"teaspoon\"}, {\"name\": \"black pepper\", \"quantity\": \"1/4\", \"unit\": \"teaspoon\"}, {\"name\": \"garlic powder\", \"quantity\": \"1/4\", \"unit\": \"teaspoon\"}, {\"name\": \"onion powder\", \"quantity\": \"1/4\", \"unit\": \"teaspoon\"}], \"instructions\": [\"Preheat oven to 400 degrees F (200 degrees C).\", \"Cut sweet potatoes into 1/2-inch thick fries.\", \"In a large bowl, toss sweet potato fries with olive oil, salt, pepper, garlic powder, and onion powder.\", \"Spread sweet potato fries in a single layer on a baking sheet.\", \"Bake in preheated oven for 20-25 minutes, or until tender and golden brown.\", \"Serve immediately.\"}}\n\n```"),
-      },
-    },
+    }
   }
 
-  resp, err := session.SendMessage(ctx, genai.Text("INSERT_INPUT_HERE"))
+  mainTopic := "b2b sales, title example "
+  message := fmt.Sprintf("Based on this file, generate the questions for the quiz. The main topic is: %s", mainTopic)
+  resp, err := session.SendMessage(ctx, genai.Text(
+    message,
+  ))
   if err != nil {
     log.Fatalf("Error sending message: %v", err)
   }
