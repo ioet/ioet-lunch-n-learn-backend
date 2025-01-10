@@ -15,6 +15,7 @@ require (
 
 require (
 	cloud.google.com/go v0.115.1 // indirect
+	cloud.google.com/go/ai v0.8.0 // indirect
 	cloud.google.com/go/auth v0.9.4 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.4 // indirect
 	cloud.google.com/go/compute/metadata v0.5.1 // indirect
@@ -61,6 +62,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/goccy/go-json v0.10.3 // indirect
+	github.com/google/generative-ai-go v0.19.0
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

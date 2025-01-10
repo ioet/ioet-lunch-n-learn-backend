@@ -8,9 +8,11 @@ import (
 	dtos "github.com/ioet/ioet-lunch-n-learn-backend/api/dtos"
 	lunchnlearn "github.com/ioet/ioet-lunch-n-learn-backend/core/src/models/lunchNLearn"
 	lnlcreationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/create"
+	lnlgeneratequizusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/generate_quiz"
 	lnllistingusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/list/all"
 	lnllistingbyidusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/list/id"
 	lnlmodificationusecase "github.com/ioet/ioet-lunch-n-learn-backend/core/src/useCases/lunchNLearn/update"
+	GeminiLLMrepository "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 	repositoryfactories "github.com/ioet/ioet-lunch-n-learn-backend/factories/repositories"
 )
 
@@ -140,7 +142,8 @@ func Route(rg *gin.RouterGroup) {
 			return
 		}
 
-		useCase := lnlmodificationusecase.NewLnLAddPresenterUseCase(*repository)
+		geminiLLMRepository := GeminiLLMrepository.GeminiLLMRepository()
+		useCase := lnlgeneratequizusecase.NewLnLGenerateQuizUseCase(*repository, geminiLLMRepository)
 		updatedLnL, err := useCase.Execute(requestLnL)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error updating the Lunch-n-learn": err.Error()})

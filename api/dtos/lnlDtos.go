@@ -22,7 +22,7 @@ type LnLAddPresenterIn struct {
 }
 
 type LnLGenerateQuizIn struct {
-	ID string `json:"id"`
-	PDF string `json:"application/pdf"`
+	ID              string `json:"id"`
+	PDF             byte   `json:"application/pdf"`
 	LunchNLearnName string `json:"lunchNLearnName"`
 }
